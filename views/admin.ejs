@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Quirly | Admin</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="bg-gray-100 min-h-screen p-6">
+    <div class="max-w-6xl mx-auto bg-white p-8 rounded-lg shadow">
+        <div class="flex items-center justify-between mb-6">
+            <h1 class="text-2xl font-bold text-gray-800">🔐 Admin Panel</h1>
+            <a href="/logout" class="text-red-600 hover:underline font-medium">Logout</a>
+        </div>
+
+        <form method="GET" action="/admin" class="flex flex-col sm:flex-row gap-4 mb-6">
+            <input
+                    type="text"
+                    name="search"
+                    placeholder="Search..."
+                    value="<%= search %>"
+                    class="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <button
+                    type="submit"
+                    class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition"
+            >
+                Search
+            </button>
+        </form>
+
+        <div class="overflow-x-auto">
+            <table class="min-w-full table-auto border border-gray-300 rounded-lg overflow-hidden">
+                <thead class="bg-gray-200 text-gray-700 text-left">
+                <tr>
+                    <th class="px-4 py-2">Short URL</th>
+                    <th class="px-4 py-2">Original URL</th>
+                    <th class="px-4 py-2">QR Code</th>
+                    <th class="px-4 py-2">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% urls.forEach(url => { %>
+                    <tr class="border-t hover:bg-gray-50">
+                        <td class="px-4 py-2 break-all text-blue-600">
+                            <a href="<%= url.fullShortUrl %>" target="_blank"><%= url.fullShortUrl %></a>
+                        </td>
+                        <td class="px-4 py-2 break-all text-blue-600">
+                            <a href="<%= url.originalUrl %>" target="_blank"><%= url.originalUrl %></a>
+                        </td>
+                        <td class="px-4 py-2">
+                            <img src="<%= url.qrCodeDataUrl %>" alt="QR Code" class="h-16 w-16 object-contain" />
+                        </td>
+                        <td class="px-4 py-2">
+                            <form method="POST" action="/admin/delete" onsubmit="return confirm('Are you sure?')">
+                                <input type="hidden" name="shortId" value="<%= url.shortId %>" />
+                                <button
+                                        type="submit"
+                                        class="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600 transition"
+                                >
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-6">
+            <a href="/" class="text-blue-600 hover:underline">← Back to home</a>
+        </div>
+    </div>
+    </body>
+</html>
