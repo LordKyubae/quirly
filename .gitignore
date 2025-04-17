@@ -1,4 +1,7 @@
 .idea
 node_modules
+public/css/main.css
+public/js/theme-toggle.js
+.env
 package-lock.json
 urls.db

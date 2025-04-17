@@ -1,20 +1,25 @@
 {
-  "name": "personal-qr",
+  "name": "quirly",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev:css": "npx tailwindcss -i src/css/tailwind.css -o ./public/css/main.css --watch",
+    "build:css": "npx tailwindcss -i src/css/tailwind.css -o ./public/css/main.css --minify",
+    "copy:js": "cp src/js/theme-toggle.js public/js/theme-toggle.js",
+    "build": "npm run build:css && npm run copy:js",
+    "start": "node server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "body-parser": "^2.2.0",
-    "ejs": "^3.1.10",
-    "express": "^5.1.0",
-    "express-session": "^1.18.1",
-    "qrcode": "^1.5.4",
-    "sqlite3": "^5.1.7"
+    "better-sqlite3": "^11.9.1",
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "nanoid": "5.0.8",
+    "qrcode": "^1.5.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.3.0"
   }
 }
