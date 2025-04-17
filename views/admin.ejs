@@ -22,7 +22,15 @@
                     </td>
                     <td class="py-2 px-4 break-words"><%= url.originalUrl %></td>
                     <td class="py-2 px-4 text-center">
-                        <img src="<%= url.qrCodeDataUrl %>" alt="QR Code" class="mx-auto max-w-[80px] max-h-[80px]">
+                        <div class="relative group cursor-pointer inline-block qr-wrapper" data-id="<%= url.shortId %>">
+                            <img src="<%= url.qrCodeDataUrl %>"
+                                 alt="QR Code"
+                                 class="mx-auto max-w-[80px] max-h-[80px] transition-all duration-300 qr-img blur-sm select-none pointer-events-none"
+                                 data-id="<%= url.shortId %>">
+                            <div class="absolute inset-0 flex items-center justify-center bg-white/70 dark:bg-gray-900/70 text-sm text-gray-700 dark:text-gray-200 font-medium overlay-text pointer-events-none">
+                                Click to Show
+                            </div>
+                        </div>
                     </td>
                     <td class="py-2 px-4 text-sm text-gray-600 dark:text-gray-300">
                         <%= new Date(url.createdAt).toLocaleString('en-US', {
@@ -46,5 +54,31 @@
         <a href="/" class="text-blue-600 hover:underline">← Back to home</a>
     </div>
 </div>
+
+<script>
+    const qrWrappers = document.querySelectorAll('.qr-wrapper');
+
+    qrWrappers.forEach(wrapper => {
+        wrapper.addEventListener('click', () => {
+            const id = wrapper.dataset.id;
+
+            document.querySelectorAll('.qr-img').forEach(img => {
+                img.classList.add('blur-sm');
+            });
+
+            document.querySelectorAll('.overlay-text').forEach(overlay => {
+                overlay.classList.remove('hidden');
+            });
+
+            const selectedImg = wrapper.querySelector('.qr-img');
+            const overlay = wrapper.querySelector('.overlay-text');
+
+            if (selectedImg && overlay) {
+                selectedImg.classList.remove('blur-sm');
+                overlay.classList.add('hidden');
+            }
+        });
+    });
+</script>
 
 <%- include('partials/footer') %>
